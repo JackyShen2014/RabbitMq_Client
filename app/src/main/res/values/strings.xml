@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RabbitMQ</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    
+    <string name="preference_file_key">SaveConfig</string>
+    <string name="SERVER_IP">ServerIp</string>
+    <string name="PORT">Port</string>
+    <string name="Usr_Name">UsrName</string>
+    <string name="Pas_Word">PassWord</string>
+    <string name="Ex_Name">ExchName</string>
+    <string name="Ex_Type">ExchType</string>
+    <string name="Que_Name">QueName</string>
+
+
+</resources>
