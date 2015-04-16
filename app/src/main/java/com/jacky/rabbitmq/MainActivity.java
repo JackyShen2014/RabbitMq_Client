@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.jacky.rabbitmq.MessageConsumer.OnReceiveMessageHandler;
 import com.rabbitmq.client.Channel;
@@ -266,7 +267,7 @@ public class MainActivity extends Activity {
                 factory.setPassword(field_pasWord.getText().toString());
 
 
-                System.out.println(""+factory.getHost()+factory.getPort()+factory.getRequestedHeartbeat()+factory.getUsername());
+                Log.d("Rabbitmq",""+factory.getHost()+factory.getPort()+factory.getRequestedHeartbeat()+factory.getUsername());
 
                 Connection connection = factory.newConnection();
 
@@ -306,13 +307,8 @@ public class MainActivity extends Activity {
         @Override
         protected Void doInBackground(String... Message) {
             try {
-
-
-
                 // Connect to broker
                 mConsumer.connectToRabbitMQ();
-
-
 
             } catch (Exception e) {
                 // TODO: handle exception

@@ -61,6 +61,8 @@ public abstract class IConnectToRabbitMQ {
         {
       	  ConnectionFactory connectionFactory = new ConnectionFactory();
             connectionFactory.setHost(mServer);
+            connectionFactory.setUsername("admin");
+            connectionFactory.setPassword("admin");
             mConnection = connectionFactory.newConnection();
             mModel = mConnection.createChannel();
             mModel.exchangeDeclare(mExchange, MyExchangeType, true);

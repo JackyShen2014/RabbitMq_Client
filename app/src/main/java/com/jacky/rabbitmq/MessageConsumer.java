@@ -75,7 +75,7 @@ public class MessageConsumer extends  IConnectToRabbitMQ{
               e.printStackTrace();
               return false;
           }
-           if (MyExchangeType == "fanout")
+           if ("fanout".equals(MyExchangeType))
                  AddBinding("");//fanout has default binding
 
           Running = true;
