@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 import android.util.Log;
 
 import com.jacky.rabbitmq.MessageConsumer.OnReceiveMessageHandler;
@@ -27,7 +28,7 @@ public class MainActivity extends Activity {
     private EditText field_usrName;
     private EditText field_pasWord;
     private EditText field_sendPkg;
-    private EditText field_recvPkg;
+    private TextView field_recvPkg;
     private EditText field_exchName;
     private EditText field_exchType;
     private EditText field_queName;
@@ -76,7 +77,7 @@ public class MainActivity extends Activity {
         field_usrName = (EditText) findViewById(R.id.usrName);
         field_pasWord = (EditText) findViewById(R.id.passWord);
         field_sendPkg = (EditText) findViewById(R.id.sendPkg);
-        field_recvPkg = (EditText) findViewById(R.id.recvPkg);
+        field_recvPkg = (TextView) findViewById(R.id.recvPkg);
         field_exchName = (EditText) findViewById(R.id.exchangeName);
         field_exchType = (EditText) findViewById(R.id.exchangeType);
         field_queName = (EditText) findViewById(R.id.queueName);
@@ -117,14 +118,14 @@ public class MainActivity extends Activity {
         field_pasWord.setText(passWord);
         field_pasWord.postInvalidate();
 
-        field_pasWord.setText(exchName);
-        field_pasWord.postInvalidate();
+        field_exchName.setText(exchName);
+        field_exchName.postInvalidate();
 
-        field_pasWord.setText(exchType);
-        field_pasWord.postInvalidate();
+        field_exchType.setText(exchType);
+        field_exchType.postInvalidate();
 
-        field_pasWord.setText(queName);
-        field_pasWord.postInvalidate();
+        field_queName.setText(queName);
+        field_queName.postInvalidate();
 
 
         try{
@@ -156,17 +157,17 @@ public class MainActivity extends Activity {
         }
         if(field_exchName.getText().toString().length() == 0){
             Toast.makeText(this.getApplicationContext(), "请输入Exchange Name", Toast.LENGTH_SHORT).show();
-            field_pasWord.requestFocus();
+            field_exchName.requestFocus();
             return;
         }
         if(field_exchType.getText().toString().length() == 0){
             Toast.makeText(this.getApplicationContext(), "请输入Exchange Type", Toast.LENGTH_SHORT).show();
-            field_pasWord.requestFocus();
+            field_exchType.requestFocus();
             return;
         }
         if(field_queName.getText().toString().length() == 0){
             Toast.makeText(this.getApplicationContext(), "请输入Queue Name", Toast.LENGTH_SHORT).show();
-            field_pasWord.requestFocus();
+            field_queName.requestFocus();
             return;
         }
         if(field_sendPkg.getText().toString().length() == 0){
@@ -217,12 +218,12 @@ public class MainActivity extends Activity {
         }
         if(field_exchName.getText().toString().length() == 0){
             Toast.makeText(this.getApplicationContext(), "请输入Exchange Name", Toast.LENGTH_SHORT).show();
-            field_pasWord.requestFocus();
+            field_exchName.requestFocus();
             return;
         }
         if(field_exchType.getText().toString().length() == 0){
             Toast.makeText(this.getApplicationContext(), "请输入Exchange Type", Toast.LENGTH_SHORT).show();
-            field_pasWord.requestFocus();
+            field_exchType.requestFocus();
             return;
         }
 
