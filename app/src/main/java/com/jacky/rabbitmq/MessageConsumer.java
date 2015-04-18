@@ -1,11 +1,11 @@
 package com.jacky.rabbitmq;
 
-import java.io.IOException;
-
 import android.os.Handler;
 import android.util.Log;
 
 import com.rabbitmq.client.QueueingConsumer;
+
+import java.io.IOException;
 
 /**
 *Consumes messages from a RabbitMQ broker
@@ -13,12 +13,11 @@ import com.rabbitmq.client.QueueingConsumer;
 */
 public class MessageConsumer extends  IConnectToRabbitMQ{
 
-  public MessageConsumer(String server, String exchange, String exchangeType) {
-      super(server, exchange, exchangeType);
+  public MessageConsumer(String server, String username, String password) {
+      super(server, username, password);
   }
 
   //The Queue name for this consumer
-  private String mQueue;
   private QueueingConsumer MySubscription;
 
   //last message to post back
@@ -27,10 +26,10 @@ public class MessageConsumer extends  IConnectToRabbitMQ{
   // An interface to be implemented by an object that is interested in messages(listener)
   public interface OnReceiveMessageHandler{
 	  
-      public void onReceiveMessage(byte[] message);
-  };
+      void onReceiveMessage(byte[] message);
+  }
 
-  //A reference to the listener, we can only have one at a time(for now)
+    //A reference to the listener, we can only have one at a time(for now)
   private OnReceiveMessageHandler mOnReceiveMessageHandler;
 
   /**
@@ -40,9 +39,9 @@ public class MessageConsumer extends  IConnectToRabbitMQ{
    */
   public void setOnReceiveMessageHandler(OnReceiveMessageHandler handler){
       mOnReceiveMessageHandler = handler;
-  };
+  }
 
-  private Handler mMessageHandler = new Handler();
+    private Handler mMessageHandler = new Handler();
   private Handler mConsumeHandler = new Handler();
 
   // Create runnable for posting back to main thread
@@ -68,14 +67,16 @@ public class MessageConsumer extends  IConnectToRabbitMQ{
      {
 
          try {
-             mQueue = mModel.queueDeclare().getQueue();
+
+
+             mModel.queueDeclare(mUserName, true, false, false, null);
              MySubscription = new QueueingConsumer(mModel);
-             mModel.basicConsume(mQueue, false, MySubscription);
+             mModel.basicConsume(mUserName, false, MySubscription);
           } catch (IOException e) {
               e.printStackTrace();
               return false;
           }
-           if ("fanout".equals(MyExchangeType))
+           //if ("fanout".equals(MyExchangeType))
                  AddBinding("");//fanout has default binding
 
           Running = true;
@@ -93,7 +94,9 @@ public class MessageConsumer extends  IConnectToRabbitMQ{
   public void AddBinding(String routingKey)
   {
       try {
-          mModel.queueBind(mQueue, mExchange, routingKey);
+          mModel.queueBind(mUserName,"carlocation.client.direct",mUserName);
+          mModel.queueBind(mUserName,"carlocation.client.fanout","");
+          mModel.queueBind(mUserName,"carlocation.client.topic","*."+mUserName);
       } catch (IOException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
@@ -107,7 +110,9 @@ public class MessageConsumer extends  IConnectToRabbitMQ{
   public void RemoveBinding(String routingKey)
   {
       try {
-          mModel.queueUnbind(mQueue, mExchange, routingKey);
+          mModel.queueUnbind(mUserName, "carlocation.client.direct",mUserName);
+          mModel.queueUnbind(mUserName, "carlocation.client.fanout","");
+          mModel.queueUnbind(mUserName,"carlocation.client.topic",mUserName);
       } catch (IOException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
@@ -126,7 +131,7 @@ public class MessageConsumer extends  IConnectToRabbitMQ{
                   try {
                       delivery = MySubscription.nextDelivery();
                       mLastMessage = delivery.getBody();
-                      Log.v("mLastMessage ", mLastMessage.toString());
+                      Log.v("mLastMessage ", new String(mLastMessage));
                       mMessageHandler.post(mReturnMessage);
                       try {
                           mModel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);

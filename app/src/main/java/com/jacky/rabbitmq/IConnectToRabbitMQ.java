@@ -10,8 +10,9 @@ import java.io.IOException;
  * Base class for objects that connect to a RabbitMQ Broker
  */
 public abstract class IConnectToRabbitMQ {
-	  public String mServer;
-    public String mExchange;
+    public String mServer;
+    public String mUserName;
+    public String mPassword;
 
     protected Channel mModel = null;
     protected Connection  mConnection;
@@ -23,14 +24,14 @@ public abstract class IConnectToRabbitMQ {
     /**
      *
      * @param server The server address
-     * @param exchange The named exchange
-     * @param exchangeType The exchange type name
+     * @param username The username
+     * @param password The password
      */
-    public IConnectToRabbitMQ(String server, String exchange, String exchangeType)
+    public IConnectToRabbitMQ(String server, String username, String password)
     {
-  	  mServer = server;
-  	  mExchange = exchange;
-        MyExchangeType = exchangeType;
+        mServer = server;
+        mUserName = username;
+        mPassword = password;
     }
 
     public void Dispose()
@@ -59,13 +60,12 @@ public abstract class IConnectToRabbitMQ {
   		  return true;
         try
         {
-      	  ConnectionFactory connectionFactory = new ConnectionFactory();
+      	    ConnectionFactory connectionFactory = new ConnectionFactory();
             connectionFactory.setHost(mServer);
-            connectionFactory.setUsername("admin");
-            connectionFactory.setPassword("admin");
+            connectionFactory.setUsername(mUserName);
+            connectionFactory.setPassword(mPassword);
             mConnection = connectionFactory.newConnection();
             mModel = mConnection.createChannel();
-            mModel.exchangeDeclare(mExchange, MyExchangeType, true);
 
             return true;
         }

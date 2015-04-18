@@ -13,6 +13,8 @@
     <string name="Ex_Name">ExchName</string>
     <string name="Ex_Type">ExchType</string>
     <string name="Que_Name">QueName</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="action_settings">Settings</string>
 
 
 </resources>
